@@ -39,7 +39,7 @@ def listar_produtos() -> list:
 @app.get("/produtos/{produto_id}", tags = ["produtos"])
 def obter_produto(produto_id: int) -> dict:
     """Obter produto."""
-    for produto in PRODUTOS:
+    for produto in enumerate(PRODUTOS):
         if produto["id"] == produto_id:
             return produto
     return {}
@@ -54,12 +54,20 @@ def criar_produto(produto: Produto) -> dict:
 
 @app.put("/produtos/{produto.id}", tags = ["produtos"])
 def atualizar_produto(produto_id: int, produto: Produto) -> dict:
-    """Atualizar produto"""
+    """Atualizar produto."""
     for index, prod in enumerate(PRODUTOS):
         if prod["id"] == produto_id:
             PRODUTOS[index] = produto
             return produto
     return {}
 
+@app.delete("/produtos/{produto_id}", tags = ["produtos"])
+def remover_produto(produto_id: int) -> dict:
+    """Remover produto."""
+    for index, prod in enumerate(PRODUTOS):
+        if prod["id"] == produto_id:
+            PRODUTOS.pop(index)
+            return {"message": "Produto removido com sucesso."}
+    return {}
 
 
