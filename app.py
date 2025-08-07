@@ -24,7 +24,7 @@ PRODUTOS = [
 
 class Produto(BaseModel):
     """Classe de produto."""
-    
+
     nome: str
     descricao: Optional[str] = None
     preco: float
@@ -51,6 +51,15 @@ def criar_produto(produto: Produto) -> dict:
     produto["id"] = len(PRODUTOS) + 1
     PRODUTOS.append(produto)
     return produto
+
+@app.put("/produtos/{produto.id}", tags = ["produtos"])
+def atualizar_produto(produto_id: int, produto: Produto) -> dict:
+    """Atualizar produto"""
+    for index, prod in enumerate(PRODUTOS):
+        if prod["id"] == produto_id:
+            PRODUTOS[index] = produto
+            return produto
+    return {}
 
 
 
